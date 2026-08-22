@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Jams — PlayJam Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #e2e8f0;
+      border-radius: 9999px;
+    }
+    .test-card {
+      transition: all 0.2s ease;
+    }
+    .test-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.09);
+    }
+    .folder-item.active {
+      background-color: #e2e8f0 !important;
+      color: #0f172a !important;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="h-screen flex overflow-hidden bg-white text-slate-900 select-none">
+
+  <!-- 1. NAVIGATION SIDEBAR -->
+  <aside class="w-60 bg-[#f8fafc] border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 select-none">
+    <div class="space-y-4">
+      
+      <!-- Workspace Header -->
+      <div class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-200/60 cursor-pointer transition">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-6 h-6 rounded-md bg-slate-900 text-white font-bold text-xs flex items-center justify-center shadow-xs shrink-0">
+            ⚡
+          </div>
+          <div class="min-w-0">
+            <span class="text-xs font-semibold text-slate-900 block truncate whitespace-nowrap">nishantpatel's Workspace</span>
+            <span class="text-[10px] text-slate-400 block truncate whitespace-nowrap">Nishants-MacBook-Air</span>
+          </div>
+        </div>
+        <svg class="w-3.5 h-3.5 text-slate-400 shrink-0 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+      </div>
+
+      <!-- Main Navigation Links -->
+      <div class="space-y-1 text-xs font-medium">
+        <button onclick="selectFolder('all')" id="nav-all-jams" class="folder-item active w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-slate-900 transition cursor-pointer whitespace-nowrap">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <svg class="w-4 h-4 text-slate-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            <span class="truncate">All Jams</span>
+          </div>
+          <span class="text-[11px] font-semibold text-slate-500 shrink-0 ml-2">1</span>
+        </button>
+
+        <a href="https://itsnishant4.github.io/playjam-shares/admin-authentication-dashboard-a-mt48h5sr/report.html" class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-slate-600 hover:bg-slate-200/50 hover:text-slate-900 transition whitespace-nowrap">
+          <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span class="truncate">Latest Test Run</span>
+        </a>
+      </div>
+
+      <!-- Real Folders -->
+      <div class="pt-3 border-t border-slate-200 space-y-2">
+        <div class="flex items-center justify-between px-2 text-[11px] font-semibold text-slate-500 whitespace-nowrap">
+          <span>Folders</span>
+          <span class="text-[10px] text-slate-400 font-medium">1</span>
+        </div>
+        <div class="space-y-0.5 text-xs text-slate-600">
+          
+          <button onclick="selectFolder('Admin Portal')" class="folder-btn w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg hover:bg-slate-200/50 cursor-pointer transition text-left whitespace-nowrap" data-folder="Admin Portal">
+            <div class="flex items-center gap-2 min-w-0">
+              <span>📁</span> <span class="truncate">Admin Portal</span>
+            </div>
+            <span class="text-[10px] text-slate-400 font-medium shrink-0 ml-1">1</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="pt-3 border-t border-slate-200 text-xs">
+      <div class="p-2.5 rounded-lg bg-white border border-slate-200 shadow-2xs space-y-1">
+        <div class="flex items-center justify-between text-slate-800 font-medium whitespace-nowrap">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span class="text-[11px] font-semibold">PlayJam Engine</span>
+          </div>
+          <span class="text-[10px] text-emerald-600 font-bold">READY</span>
+        </div>
+        <p class="text-[10px] text-slate-400 truncate whitespace-nowrap">Device: nishantpatel</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 2. MAIN DASHBOARD CONTENT AREA -->
+  <main class="flex-1 flex flex-col bg-white overflow-hidden">
+    
+    <header class="h-16 px-8 flex items-center justify-between border-b border-slate-100 bg-white shrink-0">
+      <div class="flex items-center gap-3">
+        <h1 class="text-xl font-bold text-slate-900 tracking-tight whitespace-nowrap" id="header-title">All Jams</h1>
+        <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold whitespace-nowrap" id="active-count">1</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="flex items-center -space-x-1.5">
+          <div class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-[9px] border-2 border-white uppercase" title="nishantpatel">
+            NI
+          </div>
+        </div>
+
+        <a href="https://itsnishant4.github.io/playjam-shares/admin-authentication-dashboard-a-mt48h5sr/report.html" class="h-8 px-3.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-medium flex items-center gap-1.5 transition cursor-pointer shadow-xs whitespace-nowrap">
+          <span>+</span>
+          <span>Open Report</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Filters Bar -->
+    <div class="px-8 py-3.5 flex items-center justify-between border-b border-slate-100 bg-white shrink-0 text-xs gap-4">
+      <div class="flex items-center gap-2.5 shrink-0">
+        
+        <div class="relative">
+          <select id="filter-type" onchange="applyFilters()" class="appearance-none px-3 py-1.5 pr-7 rounded-md border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium outline-none cursor-pointer whitespace-nowrap">
+            <option value="all">Type: All</option>
+            <option value="E2E Test">Type: E2E Test</option>
+          </select>
+          <svg class="w-3 h-3 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+
+        <div class="relative">
+          <select id="filter-creator" onchange="applyFilters()" class="appearance-none px-3 py-1.5 pr-7 rounded-md border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium outline-none cursor-pointer whitespace-nowrap">
+            <option value="all">Creator: All</option>
+            <option value="Nishant PATEL">Creator: Nishant PATEL</option>
+          </select>
+          <svg class="w-3 h-3 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+
+      </div>
+
+      <div class="relative w-64 shrink-0">
+        <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <input type="text" id="jam-search" oninput="applyFilters()" placeholder="Search Jams & Tests"
+          class="w-full bg-slate-50 border border-slate-200 rounded-lg pl-8 pr-3 py-1.5 text-xs outline-none focus:border-slate-400 whitespace-nowrap">
+      </div>
+    </div>
+
+    <!-- 3. CARDS GRID -->
+    <div class="flex-1 overflow-y-auto custom-scrollbar p-8 bg-white">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="jams-grid"></div>
+
+      <div id="empty-state" class="hidden py-24 flex flex-col items-center justify-center text-center space-y-2">
+        <span class="text-3xl">🔍</span>
+        <h3 class="text-sm font-semibold text-slate-800 whitespace-nowrap">No matching Jams found</h3>
+        <p class="text-xs text-slate-400 whitespace-nowrap">Try changing your search query or selected folder filter</p>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const testRuns = [{"id":"test-admin-login","title":"Admin Login & Dashboard Access","author":"Nishant PATEL","authorAvatar":"","durationFormatted":"16s","dateFormatted":"Just now","thumbnailUrl":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABQAAAAMgCAIAAADz+lisAAAQAElEQVR4nOzdeZhddZ3n8VtJJansC9kJYV8SspGwrwoKCrTidKM9Dsy0YHcPjCvtggsujejoiE47Ovq4jooLIrKJbCKERQiBBEISQhYCIWQlW2WvdX6pK+kYIgJVNITP6/XUc59zT51z7r31z33e9T333NrW1tYKAAAAvN51qgAAAEAAAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwAAEAEAQwA/xFaWlrKbWNj45Kly8vCosVL5s5fuHHjpgoA8B+ltgIAvGKamppbW1uefmbpqtVr5y54Ys2adevWr1++4tkhgwa2tLZs3doweNDAQw858PDDxvXt07sCALySalpbWysAwCugobHxsTnz7r5/6urVa5csW9HQ0NDc0lIdBW/XpUttS0tr1y6148eMLhk8ZvTBPXt0rwAArwABDAAdrzTtsuUrpk6f8YfJ965bv6G5ufmv7lJX122P/v3Hjx110nFHDx86uAIAdDQBDAAdrMx4pz0y874Hps2cM3fTps3VlTU1NZ07d+rbp0+57dOnd9faLs+uXr1i5arn7z5h7OjTTjlx1EEHdO7cuQIAdByfAQaAjtTU3Lxk6fJfXn3DylWrt5/t3L2u26CBexw+YdyQwQP332/vpqamDRs3dantsmHDhsfnPzFtxqzFzyzdfoRHZ88pOw4fOqR/v74lmysAQAcxAQaADlPeVafPmPXbW26ft+DJStvUt2vXrgfst/eB++1z5mmndOrUqba2845NW2q57LNx0+aZj8194KGH5y5YuGHDxrK+bFn2evffvX3/ffeuAAAdxAQYADrMshUrfz/53vlPPFW9269vn6MOn3DCMUeOHDF8l9vXtp3k3LdP70njxwweuMfUaY/cc//U9Rs2lgnwgoWLJt87pU/vXmV0XAEAOoIABoCO0dDYeM99Ux+dNad6t66u29tPP/WwcYf279fnr+5bNj5w/33Kz5DBA6/57S31bdfNenD6jCGDBp52yom1td6vAaADdKoAAB1h9px502fMqi736N79iMPGnXLSsQP6v7TP8Y4fM+rww8ZVi7eMgq+58ZZFzyzd6ZuTAICXRwADQMeY8uDDK59dXV0+cP99jz/myMpLN6B//2OPnLj9lOnm5pbJ99zf2NhYAQDaTQADQAfYvGXLQ488umXr1urdY46cuN/ee1Veuk6dag46YL9TTjquT+9e5W5TU9NTixY/vcM1ogGAl00AA0AHmDFrTkNDQ3V5xJ7Dxow6qK6uW+Xlmjj+0MGD/nTtq2eWLl+2fGVzc3MFAGgfAQwAHWDm7Mdrav70rjpp/JgePbpX2qFb167jDh3VpUuXyrazoJtnz5nXqZO3bABoL++mANBeWxsalixd1tTUVL07bsyozm3fb/Sy1dbWDho4oHevnpW27wpuaGzcfnI1APCyCWAAaK/lK57t0qVrdXnwoD3qunXr9FKu/LxLB+6/b0Pbta9aW1vXrF23rn59BQBoHwEMAO1V27lzc8ufPqPbs0ePdfX1lXarr9/Q87nzqNesW9e3z1//MmEA4IUJYABorwH9+z2zZFl1uUxrq6cut9PGTZu619VVl4cNGbJq1eoKANA+AhgA2mvV6jVDhwzafre2tkul3cokefWadc/da21ubqkAAO0jgAGgvfbYo3/fPr1r2j73W1fXbemy5ZX2aWpqXldfX79+2+d+y2E3b948dOigCgDQPgIYANqrrlu3fn371NZuu/Lz2rX1K1auanzuitAvT0np2Y/Pry6Xww4fPqxb164VAKB9BDAAtFdra+uogw7o2nYh6K0NDQ9Me6SsqrRDU3PztEdmVpebm1vGjj64AgC0mwAGgPaqqakZPGjgiD2HleX+/fruOWzIshUr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wQVg91Y9C7o4+ojDtq+84Lxzjpg4/pmly37x6+tL/b7trW+ufj3SXzpFuaZtffW3NTV/9ub4xhOObftVpyMnjd/FjrscJretO//cd5aC7da168zZj48ZdfARh40rK2t3OBW57PvxD15QptZXX39T+SlRWp522yMec/ZZpzc1Nv3mhptL/Y47dNR7zjm7sq3Ajyu/enLR4h/97KrFS5adfuobyxS3jLvPP/ddW7c2/OQXV9//4PTRhxx45ltO2enplYc+75x3lt6+6bY7H5n52MEH7PfZj3+oW7eulV3+Kdp22bhpc7nd2naa9I7LJdebW1qeH/MAsFuo2f5ZIwB4nWlpaVm7rr5/v7417fh0a0nTa2+89V3vOHPHsHwxytC1hOIH//t5tbWdm5qaL/rUpWvWrvvhN7/SpUuXnbYsT7J08vNnqmX73r16ld13XFmOWV+/fkD/fju+qPJuvmr12r59e+/4Wd/nW79hY4/uddtPZn5hGzdtKnPsnZabm0v9NtZ1++uXEAOA1yABDAC7dvk3vzfrsbnbzkzec9gXL/noS63oK3517S23Ty4D3jKnnTt/YanZY46ceOH551YAgFeJAAaAXfvej3+xecvWoyZNGD921MuYeZb58w0333775HvX1a8fNmTwxPFjzj7r9BpXWgaAV48ABgAAIIKLYAEAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAAMAABBBAANUAABIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIBIG1ikAAAMSSURBVIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACIIIABAACI8P8BAAD//6G5qzwAAAAGSURBVAMACi6FAzTx3VQAAAAASUVORK5CYII=","reportUrl":"https://itsnishant4.github.io/playjam-shares/admin-authentication-dashboard-a-mt48h5sr/report.html","status":"PASSED","apiCount":2,"stepCount":6,"folder":"Admin Portal","type":"E2E Test","source":"Autonomous Engine","shareUrl":"https://itsnishant4.github.io/playjam-shares/admin-authentication-dashboard-a-mt48h5sr/report.html"}];
+    let currentFolder = 'all';
+
+    function init() {
+      applyFilters();
+    }
+
+    function selectFolder(folder) {
+      currentFolder = folder;
+      
+      document.querySelectorAll('.folder-btn').forEach(btn => {
+        if (btn.dataset.folder === folder) {
+          btn.classList.add('bg-slate-200', 'text-slate-900', 'font-semibold');
+        } else {
+          btn.classList.remove('bg-slate-200', 'text-slate-900', 'font-semibold');
+        }
+      });
+
+      const allBtn = document.getElementById('nav-all-jams');
+      if (folder === 'all') {
+        allBtn.classList.add('active');
+        document.getElementById('header-title').innerText = 'All Jams';
+      } else {
+        allBtn.classList.remove('active');
+        document.getElementById('header-title').innerText = folder;
+      }
+
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const q = document.getElementById('jam-search').value.toLowerCase();
+      const typeFilter = document.getElementById('filter-type').value;
+      const creatorFilter = document.getElementById('filter-creator').value;
+
+      const filtered = testRuns.filter(t => {
+        const matchFolder = (currentFolder === 'all') || (t.folder === currentFolder);
+        const matchQuery = t.title.toLowerCase().includes(q) || t.folder.toLowerCase().includes(q) || (t.author && t.author.toLowerCase().includes(q));
+        const matchType = (typeFilter === 'all') || (t.type === typeFilter);
+        const matchCreator = (creatorFilter === 'all') || (t.author === creatorFilter);
+        return matchFolder && matchQuery && matchType && matchCreator;
+      });
+
+      document.getElementById('active-count').innerText = filtered.length;
+      renderCards(filtered);
+    }
+
+    function renderCards(cards) {
+      const grid = document.getElementById('jams-grid');
+      const emptyState = document.getElementById('empty-state');
+      grid.innerHTML = '';
+
+      if (cards.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      cards.forEach(card => {
+        const item = document.createElement('div');
+        item.className = `test-card flex flex-col rounded-xl border bg-white overflow-hidden cursor-pointer shadow-2xs group ${card.status === 'FAILED' ? 'border-red-300' : 'border-slate-200/80'}`;
+        item.onclick = () => window.location.href = card.reportUrl;
+
+        const initials = (card.author || 'NP').slice(0, 2).toUpperCase();
+
+        item.innerHTML = `
+          <!-- Video Thumbnail Container -->
+          <div class="relative w-full aspect-[16/10] bg-slate-950 overflow-hidden flex items-center justify-center">
+            <img src="${card.thumbnailUrl}" class="w-full h-full object-cover group-hover:scale-103 transition duration-300">
+            
+            <!-- Top Author / Device Badge -->
+            <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5 bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded-full text-white text-[11px] font-medium whitespace-nowrap">
+              <div class="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-[8px] uppercase">
+                ${initials}
+              </div>
+              <span class="text-slate-100 truncate max-w-[140px]">${card.author}</span>
+            </div>
+
+            ${card.status === 'FAILED' ? `<div class="absolute top-2.5 right-2.5 bg-red-600 text-white px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wide shadow-sm whitespace-nowrap">FAILED</div>` : ''}
+
+            <!-- Bottom Duration Pill -->
+            <div class="absolute bottom-2.5 right-2.5 bg-black/80 backdrop-blur-sm px-2 py-0.5 rounded-md text-white text-[11px] font-medium flex items-center gap-1 shadow-sm whitespace-nowrap">
+              <span>▶</span>
+              <span>${card.durationFormatted}</span>
+            </div>
+          </div>
+
+          <!-- Card Details Footer (Strict Single-Line No Wrapping) -->
+          <div class="p-3.5 flex items-center justify-between gap-3 bg-white min-w-0">
+            <div class="space-y-1 flex-1 min-w-0">
+              <h3 class="text-xs font-semibold text-slate-900 truncate whitespace-nowrap group-hover:text-blue-600 transition block" title="${card.title}">
+                ${card.title}
+              </h3>
+              <div class="flex items-center gap-1.5 text-[11px] text-slate-500 whitespace-nowrap overflow-hidden text-ellipsis">
+                <span class="${card.status === 'FAILED' ? 'text-red-600' : 'text-emerald-700'} font-semibold shrink-0">${card.status}</span>
+                <span class="text-slate-300 shrink-0">•</span>
+                <span class="text-blue-600 font-medium shrink-0">${card.apiCount} APIs</span>
+                <span class="text-slate-300 shrink-0">•</span>
+                <span class="text-slate-500 shrink-0">${card.stepCount} Steps</span>
+                <span class="text-slate-300 shrink-0">•</span>
+                <span class="px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 text-[10px] truncate max-w-[110px]">${card.folder}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 shrink-0">
+              ${card.shareUrl ? `<a href="${card.shareUrl}" target="_blank" onclick="event.stopPropagation()" class="w-6 h-6 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-600 flex items-center justify-center text-[11px] transition" title="Open shared link">🔗</a>` : ''}
+              <span class="text-[11px] font-medium text-slate-400 whitespace-nowrap">
+                ${card.dateFormatted}
+              </span>
+            </div>
+          </div>
+        `;
+        grid.appendChild(item);
+      });
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>
